@@ -66,5 +66,7 @@
     "breadcrumbs.enabled": false,
     "terminal.integrated.fontSize": 14,
     "terminal.integrated.fontFamily": "Fira Code, Dank Mono, Menlo",
-    "terminal.integrated.experimentalUseTitleEvent": true
+    "terminal.integrated.experimentalUseTitleEvent": true,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false
 }
