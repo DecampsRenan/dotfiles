@@ -53,10 +53,10 @@
             "value": "#42b883"
         }
     ],
-    "workbench.colorTheme": "Shades of Purple",
+    "workbench.colorTheme": "Cobalt2",
     "files.autoSave": "onFocusChange",
-    "editor.fontSize": 18,
-    "editor.fontFamily": "Dank Mono, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontSize": 17,
+    "editor.fontFamily": "Operator Mono, Dank Mono, Menlo, Monaco, 'Courier New', monospace",
     "editor.tabSize": 2,
     "editor.renderWhitespace": "all",
     "files.exclude": {
@@ -68,5 +68,27 @@
     "terminal.integrated.fontFamily": "Fira Code, Dank Mono, Menlo",
     "terminal.integrated.experimentalUseTitleEvent": true,
     "telemetry.enableCrashReporter": false,
-    "telemetry.enableTelemetry": false
+    "telemetry.enableTelemetry": false,
+    "workbench.startupEditor": "newUntitledFile",
+    "editor.fontLigatures": true,
+    "editor.lineHeight": 25,
+    "editor.letterSpacing": 0.5,
+    "editor.fontWeight": "400",
+    "editor.cursorWidth": 5,
+    "editor.cursorBlinking": "solid",
+    "prettier.printWidth": 120,
+    "prettier.quoteProps": "consistent",
+    "prettier.singleQuote": true,
+    "prettier.endOfLine": "lf",
+    "prettier.trailingComma": "es5",
+    "eslint.alwaysShowStatus": true,
+    "eslint.autoFixOnSave": true,
+    "eslint.experimental.incrementalSync": true,
+    "eslint.packageManager": "yarn",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    }
 }

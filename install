@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Change directory to the directory of the script
+DOTFILES_FOLDER=`pwd`
+
+clear
+echo "Trying to do some things here and here..."
+echo "Using $DOTFILES_FOLDER"
+
+# Abort on error
+set -e
+
+function usage(){
+  printf "\nHow to use :\n"
+  printf "  --skip-install : Only create symlink for config files and configure macos\n"
+  printf "  --skip-config  : Only install softwares\n"
+  printf "  -h             : Show this help\n"
+}
+
+export SKIP_APPS=0
+export SKIP_CONFIG=0
+while getopts "hcs" option
+do
+  case $option in
+    h)
+      usage;
+      exit 0;;
+    c)
+      echo "Skipping software installation step";
+      SKIP_APPS=1
+      shift;;
+    s)
+      echo "Skipping system config step";
+      SKIP_CONFIG=1
+      shift;;
+    \?)
+      usage
+      exit 1
+      ;;
+  esac
+done;
+
+# ## Install macos specific apps and config
+sh $DOTFILES_FOLDER/macos/setup
+
+if [ $SKIP_CONFIG != 1 ]
+then
+  ## VSCode config files
+  VSCODE_CONFIG_PATH="$HOME/Library/Application Support/Code/User"
+  echo "Symlinking config to the $VSCODE_CONFIG_PATH"
+  ln -sf "$DOTFILES_FOLDER/vscode/settings.json" "$VSCODE_CONFIG_PATH/settings.json"
+fi
+
+unset SKIP_APPS
+unset SKIP_CONFIG

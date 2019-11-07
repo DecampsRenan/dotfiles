@@ -1,0 +1,82 @@
+#!/bin/bash
+
+if [ $SKIP_APPS != 1 ]
+then
+  echo "Checking if Xcode Command Line tools are installed...";
+  # Checks if path to command line tools exist
+  # Credit: https://apple.stackexchange.com/questions/219507/best-way-to-check-in-bash-if-command-line-tools-are-installed
+  if type xcode-select >&- && xpath=$( xcode-select --print-path ) &&
+    test -d "${xpath}" && test -x "${xpath}" ; then
+    echo "Xcode Command Line tools are already installed..."; echo;
+  else
+    echo "Installing Xcode Command Line Tools..."; echo;
+    touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress;
+    PROD=$(softwareupdate -l |
+      grep "\*.*Command Line" |
+      head -n 1 | awk -F"*" '{print $2}' |
+      sed -e 's/^ *//' |
+      tr -d '\n')
+    softwareupdate -i "$PROD" --verbose;
+  fi
+fi
+
+if [ $SKIP_CONFIG != 1 ]
+  then
+  echo "Display full path and all files in Finder"
+  defaults write com.apple.finder AppleShowAllFiles -boolean true
+  defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
+  killall Finder
+
+  echo "Set a super fast keyboard repeat rate"
+  defaults write NSGlobalDomain KeyRepeat -int 0.02
+
+  echo "Set a shorter Delay until key repeat"
+  defaults write NSGlobalDomain InitialKeyRepeat -int 12
+fi
+
+if [ $SKIP_APPS != 1 ]
+then
+  echo "Checking if Homebrew is already installed...";
+
+  # Checks if Homebrew is installed
+  # Credit: https://gist.github.com/codeinthehole/26b37efa67041e1307db
+  if test ! $(which brew); then
+    echo "Installing Homebrew...";
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew update
+    brew tap homebrew/cask-drivers
+    brew tap homebrew/cask-versions
+    brew install wget
+  else
+    echo "Homebrew is already installed...";
+  fi
+
+  echo "Install languages"
+  brew install ruby
+
+  echo "Install devtools"
+  brew install gradle
+  brew cask install android-studio
+  brew cask install visual-studio-code
+  brew cask install ngrok
+  brew cask install docker
+  brew install docker
+  brew install docker-compose
+  brew install docker-machine
+
+  echo "Install apps"
+  brew cask install iterm2
+  brew cask install google-chrome
+  brew cask install firefox
+  brew cask install slack
+  brew cask install spotify
+  brew cask install vlc
+  brew cask install spectacle
+
+  echo "Homebrew cleanup"
+  brew cleanup -s
+  brew doctor
+
+  echo "XCode cocoapods"
+  sudo gem install cocoapods
+fi
