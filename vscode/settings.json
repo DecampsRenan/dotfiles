@@ -90,5 +90,10 @@
     },
     "emmet.includeLanguages": {
         "javascript": "javascriptreact"
-    }
+    },
+    "window.zoomLevel": 0,
+    "gitlens.advanced.telemetry.enabled": false,
+    "gitlens.codeLens.authors.enabled": false,
+    "gitlens.codeLens.enabled": false,
+    "peacock.affectTabActiveBorder": true
 }
