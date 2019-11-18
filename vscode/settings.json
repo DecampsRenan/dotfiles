@@ -61,7 +61,11 @@
     "editor.renderWhitespace": "all",
     "files.exclude": {
         ".cache": true,
-        ".history": true
+        ".history": true,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
     },
     "breadcrumbs.enabled": false,
     "terminal.integrated.fontSize": 14,

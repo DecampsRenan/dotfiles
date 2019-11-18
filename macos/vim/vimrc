@@ -1,0 +1,7 @@
+set nocompatible
+runtime! config/**/*.vim
+
+set number
+
+filetype plugin indent on
+syntax on
