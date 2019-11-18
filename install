@@ -12,9 +12,9 @@ set -e
 
 function usage(){
   printf "\nHow to use :\n"
-  printf "  --skip-install : Only create symlink for config files and configure macos\n"
-  printf "  --skip-config  : Only install softwares\n"
-  printf "  -h             : Show this help\n"
+  printf "  -c : Only create symlink for config files and configure macos\n"
+  printf "  -s : Only install softwares\n"
+  printf "  -h : Show this help\n"
 }
 
 export SKIP_APPS=0

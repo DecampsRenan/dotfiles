@@ -5,11 +5,10 @@ Simple as running the following 😀 :
 ```bash
 git clone git@github.com:DecampsRenan/dotfiles.git --depth=1
 cd dotfiles && ./install.sh
+
+# Install softs without config
+./install -s
+
+# Only link config files
+./install -c
 ```
-
-## Installed softwares
-
-### VSCode
-
-Install vscode with the help of brew cask.  
-Then, config files will be linked.
