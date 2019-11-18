@@ -50,6 +50,7 @@ then
   VSCODE_CONFIG_PATH="$HOME/Library/Application Support/Code/User"
   echo "Symlinking config to the $VSCODE_CONFIG_PATH"
   ln -sf "$DOTFILES_FOLDER/vscode/settings.json" "$VSCODE_CONFIG_PATH/settings.json"
+  ln -sf "$DOTFILES_FOLDER/vscode/keybindings.json" "$VSCODE_CONFIG_PATH/keybindings.json"
 fi
 
 unset SKIP_APPS
