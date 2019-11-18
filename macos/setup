@@ -27,7 +27,7 @@ if [ $SKIP_CONFIG != 1 ]
   defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
   killall Finder
 
-  echo "Set a super fast keyboard repeat rate"
+  echo "Set a faster keyboard repeat rate"
   defaults write NSGlobalDomain KeyRepeat -int 6
 
   echo "Set a shorter Delay until key repeat"
@@ -72,6 +72,22 @@ then
   brew cask install spotify
   brew cask install vlc
   brew cask install spectacle
+  brew cask install react-native-debugger
+
+  # Install hammerspoon for custom config
+  brew cask install hammerspoon
+  if [ $SKIP_CONFIG != 1 ]
+  then
+    # copy config
+    ln -sf "$DOTFILES_FOLDER/macos/hammerspoon" "$HOME/.hammerspoon"
+  fi
+
+  brew cask install karabiner-elements
+  if [ $SKIP_CONFIG != 1 ]
+  then
+    # copy config
+    ln -sf "$DOTFILES_FOLDER/macos/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
+  fi
 
   echo "Homebrew cleanup"
   brew cleanup -s

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change directory to the directory of the script
-DOTFILES_FOLDER=`pwd`
+export DOTFILES_FOLDER=`pwd`
 
 clear
 echo "Trying to do some things here and here..."
@@ -19,6 +19,7 @@ function usage(){
 
 export SKIP_APPS=0
 export SKIP_CONFIG=0
+
 while getopts "hcs" option
 do
   case $option in
@@ -53,3 +54,4 @@ fi
 
 unset SKIP_APPS
 unset SKIP_CONFIG
+unset DOTFILES_FOLDER
