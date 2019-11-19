@@ -2,6 +2,10 @@ function getFocusedWindow()
   return hs.window.focusedWindow()
 end
 
+
+
+
+
 hyper = {
   "cmd", "alt", "ctrl", "shift"
 }
