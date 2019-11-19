@@ -1,9 +1,9 @@
-caffeine = hs.menubar.new()
+local caffeine = hs.menubar.new()
 function setCaffeineDisplay(state)
   if state then
-    caffeine:setTitle("🌞")
+    caffeine:setTitle("AWAKE 🌞")
   else
-    caffeine:setTitle("💤")
+    caffeine:setTitle("SLEEPING 💤")
   end
 end
 

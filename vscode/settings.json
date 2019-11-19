@@ -99,5 +99,8 @@
     "gitlens.advanced.telemetry.enabled": false,
     "gitlens.codeLens.authors.enabled": false,
     "gitlens.codeLens.enabled": false,
-    "peacock.affectTabActiveBorder": true
+    "peacock.affectTabActiveBorder": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "python.jediEnabled": false
 }
