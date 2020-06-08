@@ -1,5 +1,9 @@
 hs.window.animationDuration = 0
 
+function getFocusedWindow()
+  return hs.window.focusedWindow()
+end
+
 hs.hotkey.bind(hyper, "h", function()
   local win = getFocusedWindow()
   if not win then return end

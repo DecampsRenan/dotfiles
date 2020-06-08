@@ -1,5 +1,13 @@
 wifiWatcher = nil
-homeSSID = "Dexter Jean Guy Du Racel"
+
+local homeSSID = hs.settings.get("homeSSID")
+
+-- if hammerspoon haven't already store homeSSID
+if not homeSSID then
+  local _, homeSSID = hs.dialog.textPrompt("Wifi notifier", "Please provide your usual network SSID")
+  hs.settings.set("homeSSID", homeSSID)
+end
+
 lastSSID = hs.wifi.currentNetwork()
 
 function ssidChangedCallback()
@@ -18,3 +26,15 @@ end
 
 wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
 wifiWatcher:start()
+
+function wifiStatusCallback()
+  net = hs.wifi.currentNetwork()
+  if net==nil then
+      hs.notify.show("You lost Wi-Fi connection","","","")
+  else
+      hs.notify.show("Connected to Wi-Fi network","",net,"")
+  end
+end
+
+wifiwatcher = hs.wifi.watcher.new(wifiStatusCallback)
+wifiwatcher:start()

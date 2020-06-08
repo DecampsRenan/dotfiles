@@ -53,6 +53,7 @@ then
 
   echo "Install languages"
   brew install ruby
+  curl -s "https://get.sdkman.io" | bash
 
   echo "Install devtools"
   brew install gradle
