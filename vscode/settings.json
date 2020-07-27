@@ -17,7 +17,6 @@
     "editor.fontSize": 16,
     "editor.renameOnType": true,
     "editor.codeLens": false,
-    "editor.acceptSuggestionOnEnter": "smart",
 
     // =========================== EXPLORER
     "explorer.confirmDelete": false,
@@ -102,7 +101,6 @@
     },
     
     "cSpell.spellCheckDelayMs": 500,
-    "cSpell.allowCompoundWords": true,
     "cSpell.userWords": [
         "passthrough"
     ],
@@ -119,35 +117,21 @@
     "i18n-ally.review.user.name": "Renan",
     "i18n-ally.annotationDelimiter": ".",
     "i18n-ally.fullReloadOnChanged": true,
+    "i18n-ally.namespace": true,
     
     "nasc-touchbar.gitSync": true,
     "screencastMode.onlyKeyboardShortcuts": true,
     "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
 
-    "workbench.colorCustomizations": {
-        "[Night Owl]": {
-            "activityBar.background": "#000C1D",
-            "activityBar.border": "#102a44",
-            "sideBar.background": "#001122",
-            "sideBar.border": "#102a44",
-            "sideBar.foreground": "#8BADC1"
-        },
-        "[Night Owl No Italics]": {
-            "activityBar.background": "#000C1D",
-            "activityBar.border": "#102a44",
-            "sideBar.background": "#001122",
-            "sideBar.border": "#102a44",
-            "sideBar.foreground": "#8BADC1"
-        }
-    },
     "clipboard-manager.maxClips": 20,
-    "i18n-ally.namespace": true,
     "todo-tree.tree.showScanModeButton": false,
     "terminal.external.osxExec": "iTerm.app",
     "material-icon-theme.folders.color": "#42a5f5",
-    "material-icon-theme.activeIconPack": "vue_vuex",
+    "material-icon-theme.activeIconPack": "react",
     "material-icon-theme.folders.theme": "specific",
     "material-icon-theme.hidesExplorerArrows": false,
     "material-icon-theme.opacity": 1,
     "material-icon-theme.saturation": 1,
+    "sync.quietSync": true,
+    "cSpell.allowCompoundWords": true,
 }

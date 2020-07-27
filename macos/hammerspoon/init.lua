@@ -13,6 +13,7 @@ require "./config/apps"
 require "./config/caffeine"
 require "./config/wifi"
 require "./config/keyboard"
+require "./config/spotify"
 
 hs.notify
   .new({
