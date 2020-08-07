@@ -1,6 +1,6 @@
 {
     // =========================== EDITOR
-    "editor.fontFamily": "Operator Mono, Dank Mono, JetBrains Mono, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": " Operator Mono, Dank Mono, JetBrains Mono, Menlo, Monaco, 'Courier New', monospace",
     "editor.tabSize": 2,
     "editor.renderWhitespace": "boundary",
     "editor.fontLigatures": true,
@@ -24,7 +24,6 @@
     
     // =========================== WORKBENCH
     "workbench.startupEditor": "newUntitledFile",
-    "workbench.colorTheme": "Palenight Operator",
     "workbench.iconTheme": "material-icon-theme",
     "workbench.tree.indent": 16,
     
@@ -59,8 +58,6 @@
     ],
     
     "window.zoomLevel": 0,
-    
-    "python.jediEnabled": false,
     
     // =========================== PER LANGUAGE SETTING
     "[javascript]": {
@@ -109,16 +106,6 @@
     "clipboard-manager.snippet.enabled": false,
     "clipboard-manager.onlyWindowFocused": false,
     
-    "i18n-ally.keystyle": "auto",
-    "i18n-ally.languageTagSystem": "bcp47",
-    "i18n-ally.review.enabled": false,
-    "i18n-ally.review.gutters": false,
-    "i18n-ally.review.user.email": "renan.decamps@gmail.com",
-    "i18n-ally.review.user.name": "Renan",
-    "i18n-ally.annotationDelimiter": ".",
-    "i18n-ally.fullReloadOnChanged": true,
-    "i18n-ally.namespace": true,
-    
     "nasc-touchbar.gitSync": true,
     "screencastMode.onlyKeyboardShortcuts": true,
     "emmet.showExpandedAbbreviation": "inMarkupAndStylesheetFilesOnly",
@@ -134,4 +121,6 @@
     "material-icon-theme.saturation": 1,
     "sync.quietSync": true,
     "cSpell.allowCompoundWords": true,
+    "workbench.colorTheme": "Night Owl",
+    "workbench.sideBar.location": "right",
 }
