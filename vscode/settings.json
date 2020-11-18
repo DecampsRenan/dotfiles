@@ -40,8 +40,8 @@
     "breadcrumbs.enabled": false,
     
     // =========================== TERMINAL
-    "terminal.integrated.fontSize": 13,
-    "terminal.integrated.fontFamily": "JetBrains Mono, Fira Code, Dank Mono, Menlo",
+    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.fontFamily": "Inconsolata Nerd Font, JetBrains Mono, Fira Code, Dank Mono, Menlo",
     "terminal.integrated.experimentalUseTitleEvent": true,
     "terminal.integrated.rendererType": "dom",
     
@@ -125,4 +125,5 @@
     "editor.formatOnSave": false,
     "editor.formatOnType": false,
     "extensions.ignoreRecommendations": false,
+    "terminal.integrated.cursorStyle": "line",
 }
