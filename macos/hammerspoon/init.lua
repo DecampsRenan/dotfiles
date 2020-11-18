@@ -8,9 +8,8 @@ hyper = {
 
 hs.hotkey.bind(hyper, "à", function() hs.reload() end)
 
--- Volume management
+-- Lock computer
 hs.hotkey.bind(hyper, "up", function() hs.spotify.playpause() end)
-
 
 require "./config/windows"
 require "./config/apps"
@@ -18,6 +17,7 @@ require "./config/caffeine"
 require "./config/wifi"
 require "./config/keyboard"
 require "./config/spotify"
+require "./config/slack-status"
 
 hs.notify
   .new({

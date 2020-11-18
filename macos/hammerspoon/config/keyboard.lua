@@ -3,8 +3,8 @@
 local log = hs.logger.new('keyboard','debug')
 log.i('Initializing')
 
-externalKeyboardId = 50475
-externaleKeyboardName = "USB Receiver"
+externalKeyboardId = 6973
+externaleKeyboardName = "Corsair Gaming K55 RGB Keyboard"
 
 function tablelength(T)
   local count = 0
@@ -13,7 +13,6 @@ function tablelength(T)
 end
 
 local usbDevices = hs.usb.attachedDevices()
-log.i(tablelength(usbDevices) .. ' USB Devices')
 for i in pairs(usbDevices) do
   if
     usbDevices[i].productName == externaleKeyboardName and

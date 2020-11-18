@@ -1,6 +1,6 @@
 {
     // =========================== EDITOR
-    "editor.fontFamily": " Operator Mono, Dank Mono, JetBrains Mono, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "Operator Mono, JetBrains Mono, Dank Mono, Menlo, Monaco, 'Courier New', monospace",
     "editor.tabSize": 2,
     "editor.renderWhitespace": "boundary",
     "editor.fontLigatures": true,
@@ -73,8 +73,6 @@
         "editor.formatOnSave": false,
     },
     
-    "sync.gist": "383827a25253beb05c7376a9d7784579",
-    
     "javascript.updateImportsOnFileMove.enabled": "always",
     "javascript.preferences.quoteStyle": "single",
     "typescript.updateImportsOnFileMove.enabled": "always",
@@ -119,8 +117,12 @@
     "material-icon-theme.hidesExplorerArrows": false,
     "material-icon-theme.opacity": 1,
     "material-icon-theme.saturation": 1,
-    "sync.quietSync": true,
     "cSpell.allowCompoundWords": true,
-    "workbench.colorTheme": "Night Owl",
+    "workbench.colorTheme": "Cobalt2",
     "workbench.sideBar.location": "right",
+    "typescript.suggest.paths": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false,
+    "extensions.ignoreRecommendations": false,
 }
