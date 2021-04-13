@@ -72,9 +72,9 @@ then
   brew install --cask vlc
   brew install --cask insomnia
   brew install --cask notion
-  brew install --cask react-native-debugger
   brew install --cask hammerspoon
   brew install --cask karabiner-elements
+  brew install --cask 1password
 
   echo "Homebrew cleanup"
   brew cleanup -s
@@ -86,7 +86,7 @@ fi
 
 if [ $SKIP_CONFIG != 1 ]
 then
-  # copy config
+  # symlink config files
   ln -sf "$DOTFILES_FOLDER/macos/hammerspoon" "$HOME/.hammerspoon"
   ln -sf "$DOTFILES_FOLDER/macos/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
   ln -sf "$DOTFILES_FOLDER/macos/vim" "$HOME/.vim"
