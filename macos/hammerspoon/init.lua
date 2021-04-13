@@ -6,10 +6,15 @@ hyper = {
   "shift"
 }
 
-hs.hotkey.bind(hyper, "à", function() hs.reload() end)
+-- Reload hammerspoon config
+hs.hotkey.bind(hyper, "à", function()
+  hs.notify.new({
+    title="Hammerspoon",
+    informativeText="Config loaded 🚀"
+  }):send()
 
--- Lock computer
-hs.hotkey.bind(hyper, "up", function() hs.spotify.playpause() end)
+  hs.reload()
+end)
 
 require "./config/windows"
 require "./config/apps"
@@ -17,11 +22,4 @@ require "./config/caffeine"
 require "./config/wifi"
 require "./config/keyboard"
 require "./config/spotify"
-require "./config/slack-status"
-
-hs.notify
-  .new({
-    title="Hammerspoon",
-    informativeText="Config loaded 🚀"
-  })
-  :send()
+-- require "./config/slack-status"

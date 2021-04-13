@@ -1,11 +1,9 @@
 #!/bin/bash
 
+clear
+
 # Change directory to the directory of the script
 export DOTFILES_FOLDER=`pwd`
-
-clear
-echo "Trying to do some things here and here..."
-echo "Using $DOTFILES_FOLDER"
 
 # Abort on error
 set -e

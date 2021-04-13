@@ -91,6 +91,26 @@ function sendSlackStatusRequest()
   end
 end
 
-hs.hotkey.bind(hyper, "a", function()
+hs.hotkey.bind(hyper, "-", function()
   slackStatusUpdated()
 end)
+
+
+local currentProfile = "Available"
+menubarItem = hs.menubar.new(true)
+
+function updateMenubarTitle(newTitle)
+  currentProfile = newTitle
+  if (menubarItem) then
+    menubarItem:setTitle(currentProfile)
+  end
+end
+
+if (menubarItem) then
+  menubarItem:setTitle(currentProfile)
+  menubarItem:setMenu({
+    { title = "In a call", fn = function() updateMenubarTitle("In a call") end },
+    { title = "Available", fn = function() updateMenubarTitle("Available") end },
+    { title = "AFK", fn = function() updateMenubarTitle("AFK") end },
+  })
+end
