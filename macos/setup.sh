@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "Checking if Xcode Command Line tools are installed...";
 # Checks if path to command line tools exist
 # Credit: https://apple.stackexchange.com/questions/219507/best-way-to-check-in-bash-if-command-line-tools-are-installed
@@ -43,26 +45,39 @@ else
   echo "Homebrew is already installed...";
 fi
 
+# Softwares needed to be installed from brew --cask
+brewCasks=(
+  "ngrok"
+  "android-studio"
+  "visual-studio-code"
+  "docker"
+  "iterm2"
+  "google-chrome"
+  "firefox"
+  "fork"
+  "slack"
+  "insomnia"
+  "notion"
+  "1password"
+)
+
 echo "Install languages"
 brew install ruby
 curl -s "https://get.sdkman.io" | bash
+# sdk install java 11.0.11.hs-adpt < /dev/null
+# sdk install gradle < /dev/null
 
 echo "Install devtools"
 brew install gradle
-brew install --cask ngrok
 
-echo "Install apps"
-brew install --cask android-studio
-brew install --cask visual-studio-code
-brew install --cask docker
-brew install --cask iterm2
-brew install --cask google-chrome
-brew install --cask firefox
-brew install --cask fork
-brew install --cask slack
-brew install --cask insomnia
-brew install --cask notion
-brew install --cask 1password
+for caskName in ${brewCasks[@]}; do
+  if brew list ${caskName}; then
+    echo "${caskName} already installed, skipping"
+  else
+    echo "Installing ${caskName}..."
+    brew install --cask ${caskName}
+  fi
+done
 
 if test ! -z $USE_CONFIG
 then
