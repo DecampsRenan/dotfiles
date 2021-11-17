@@ -15,8 +15,8 @@ function usage(){
   printf "  -h : Show this help\n"
 }
 
-export SKIP_APPS=0
-export SKIP_CONFIG=0
+export USE_APPS=1
+export USE_CONFIG=1
 
 while getopts "hcs" option
 do
@@ -26,11 +26,11 @@ do
       exit 0;;
     c)
       echo "Skipping software installation step";
-      SKIP_APPS=1
+      unset USE_APPS
       shift;;
     s)
       echo "Skipping system config step";
-      SKIP_CONFIG=1
+      unset USE_CONFIG
       shift;;
     \?)
       usage
@@ -40,17 +40,8 @@ do
 done;
 
 # ## Install macos specific apps and config
-sh $DOTFILES_FOLDER/macos/setup
+sh $DOTFILES_FOLDER/macos/setup.sh
 
-if [ $SKIP_CONFIG != 1 ]
-then
-  ## VSCode config files
-  VSCODE_CONFIG_PATH="$HOME/Library/Application Support/Code/User"
-  echo "Symlinking config to the $VSCODE_CONFIG_PATH"
-  ln -sf "$DOTFILES_FOLDER/vscode/settings.json" "$VSCODE_CONFIG_PATH/settings.json"
-  ln -sf "$DOTFILES_FOLDER/vscode/keybindings.json" "$VSCODE_CONFIG_PATH/keybindings.json"
-fi
-
-unset SKIP_APPS
-unset SKIP_CONFIG
+unset USE_APPS
+unset USE_CONFIG
 unset DOTFILES_FOLDER
