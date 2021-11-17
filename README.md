@@ -15,8 +15,8 @@ copy/paset the following lines in a terminal:
 
 ```bash
 # With curl
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh)"
 
 # With zsh
-sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup -O -)"
+sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh -O -)"
 ```
