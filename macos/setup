@@ -72,7 +72,6 @@ then
   brew install --cask vlc
   brew install --cask insomnia
   brew install --cask notion
-  brew install --cask hammerspoon
   brew install --cask karabiner-elements
   brew install --cask 1password
 
@@ -87,7 +86,6 @@ fi
 if [ $SKIP_CONFIG != 1 ]
 then
   # symlink config files
-  ln -sf "$DOTFILES_FOLDER/macos/hammerspoon" "$HOME/.hammerspoon"
   ln -sf "$DOTFILES_FOLDER/macos/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
   ln -sf "$DOTFILES_FOLDER/macos/vim" "$HOME/.vim"
 fi

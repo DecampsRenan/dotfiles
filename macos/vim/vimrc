@@ -31,7 +31,7 @@ Plug 'dense-analysis/ale'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'editorconfig/editorconfig-vim'
@@ -39,21 +39,21 @@ Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
 " NERDTree config
-autocmd VimEnter * NERDTree
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
+" autocmd VimEnter * NERDTree
+" nnoremap <leader>n :NERDTreeFocus<CR>
+" nnoremap <C-n> :NERDTree<CR>
+" nnoremap <C-t> :NERDTreeToggle<CR>
+" nnoremap <C-f> :NERDTreeFind<CR>
 
 " Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-    \ quit | endif
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+"     \ quit | endif
 
 " ALE config
 let g:ale_fix_on_save = 1
 let g:ale_completion_autoimport = 1
 let g:ale_fixers = {
-\   'javascript': ['prettier', 'eslint'], 
+\   'javascript': ['prettier', 'eslint'],
 \   'typescript': ['eslint'],
 \   'vue': ['eslint'],
 \}
