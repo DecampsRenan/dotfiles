@@ -59,6 +59,7 @@ gem install cocoapods
 # Softwares needed to be installed from brew --cask
 brewCasks=(
   "ngrok"
+  "intellij-idea"
   "android-studio"
   "visual-studio-code"
   "docker"
@@ -70,6 +71,14 @@ brewCasks=(
   "insomnia"
   "notion"
   "1password"
+  "karabiner-elements"
+  "spotify"
+  "vlc"
+  "the-unarchiver"
+  "imageoptim"
+  "itsycal"
+  "ntfstool"
+  "raycast"
 )
 
 installedCasks=($(brew list -1 -q --casks))

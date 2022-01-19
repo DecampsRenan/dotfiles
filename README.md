@@ -17,12 +17,14 @@ sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/mac
 ## Installed softwares
 
 ### Tools
+
 - Xcode Command Line Tools
 - Homebrew
 - wget
 - rbenv
 - cocoapods
 - ngrok
+- intellij ultimate
 - android-studio
 - visual-studio-code
 - docker
@@ -40,8 +42,17 @@ sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/mac
 - n (node version manager)
 - node lts
 - yarn 1
+- karabiner-elements
+- spotify
+- vlc
+- the-unarchiver
+- imageoptim
+- itsycal
+- ntfstool
+- raycast
 
 ### Config
+
 - Display full path and all files in Finder
 - Set a faster keyboard repeat rate
 - Set a shorter delay until key repeat
