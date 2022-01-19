@@ -2,6 +2,9 @@
 
 set -e
 
+echo "Asking you to log with sudo, so subsequent sudo calls can be automated"
+sudo echo ""
+
 echo "Checking if Xcode Command Line tools are installed...";
 # Checks if path to command line tools exist
 # Credit: https://apple.stackexchange.com/questions/219507/best-way-to-check-in-bash-if-command-line-tools-are-installed
@@ -19,9 +22,7 @@ else
   softwareupdate -i "$PROD" --verbose;
 fi
 
-echo "Install cocoapods"
-sudo gem install cocoapods
-
+echo ""
 echo "Display full path and all files in Finder"
 defaults write com.apple.finder AppleShowAllFiles -boolean true
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
@@ -33,6 +34,7 @@ defaults write NSGlobalDomain KeyRepeat -int 6
 echo "Set a shorter Delay until key repeat"
 defaults write NSGlobalDomain InitialKeyRepeat -int 25
 
+echo ""
 echo "Checking if Homebrew is already installed...";
 
 # Checks if Homebrew is installed
@@ -47,6 +49,12 @@ if test ! $(which brew); then
 else
   echo "Homebrew is already installed, skipping";
 fi
+
+echo "Install ruby tooling (rbenv, cocoapods)"
+brew install rbenv
+mkdir -p "$HOME/.gem"
+export GEM_HOME="$HOME/.gem"
+gem install cocoapods
 
 # Softwares needed to be installed from brew --cask
 brewCasks=(
@@ -66,8 +74,8 @@ brewCasks=(
 
 installedCasks=($(brew list -1 -q --casks))
 
-
-echo "Install languages"
+echo ""
+echo "Install softwares"
 
 # JDK tools (java, groovy, etc...)
 curl -s "https://get.sdkman.io" | bash
@@ -75,6 +83,14 @@ sed -i '' -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkma
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk install java 11.0.11.hs-adpt < /dev/null
 sdk install gradle < /dev/null
+
+# Node tools (n, npm node, yarn)
+if ! command -v n &> /dev/null
+then
+  curl -L "https://git.io/n-install" | bash -s -- -y
+fi
+brew install yarn
+
 
 for caskName in ${brewCasks[@]}; do
   if [[ " ${installedCasks[*]} " =~ " ${caskName} " ]]; then
