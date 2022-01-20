@@ -2,6 +2,25 @@
 
 set -e
 
+function installWithBrew() {
+  local packageList=("${!1}")
+  local installedPackages=("${!2}")
+  local isCask="${3:-false}"
+
+  for caskName in ${packageList[@]}; do
+    if [[ " ${installedPackages[*]} " =~ " ${caskName} " ]]; then
+      echo "${caskName} already installed, skipping"
+    else
+      echo "Installing ${caskName}..."
+      if [[ "$isCask" = true ]]; then
+        brew install --cask ${caskName}
+      else
+        brew install ${caskName}
+      fi
+    fi
+  done
+}
+
 echo "Asking you to log with sudo, so subsequent sudo calls can be automated"
 sudo echo ""
 
@@ -42,16 +61,50 @@ echo "Checking if Homebrew is already installed...";
 if test ! $(which brew); then
   echo "Installing Homebrew...";
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  brew update
+else
+  echo "Homebrew is already installed, try to upgrade...";
   brew tap homebrew/cask-drivers
   brew tap homebrew/cask-versions
-  brew install wget
-else
-  echo "Homebrew is already installed, skipping";
+  brew tap homebrew/cask-fonts
+  brew update
 fi
 
+echo ""
+echo "Softwares"
+
+# JDK tools (java, groovy, etc...)
+curl -s "https://get.sdkman.io" | bash
+sed -i '' -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+sdk install java 11.0.11.hs-adpt < /dev/null
+sdk install gradle < /dev/null
+
+# Node tools (n, npm node, yarn)
+if ! command -v n &> /dev/null
+then
+  curl -L "https://git.io/n-install" | bash -s -- -y
+fi
+
+installedBrewPackages=($(brew list -1 -q --full-name))
+
+brewFonts=(
+  "font-inconsolata"
+  "font-fira-code"
+)
+installWithBrew brewFonts[@] installedBrewPackages[@]
+
+brewCmds=(
+  "wget"
+  "rbenv"
+  "yarn"
+  "watchman"
+  "ffmpeg"
+  "scrcpy"
+  "htop"
+)
+installWithBrew brewCmds[@] installedBrewPackages[@]
+
 echo "Install ruby tooling (rbenv, cocoapods)"
-brew install rbenv
 mkdir -p "$HOME/.gem"
 export GEM_HOME="$HOME/.gem"
 gem install cocoapods
@@ -80,42 +133,7 @@ brewCasks=(
   "ntfstool"
   "raycast"
 )
-
-installedCasks=($(brew list -1 -q --casks))
-
-echo ""
-echo "Install softwares"
-
-# JDK tools (java, groovy, etc...)
-curl -s "https://get.sdkman.io" | bash
-sed -i '' -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk install java 11.0.11.hs-adpt < /dev/null
-sdk install gradle < /dev/null
-
-# Node tools (n, npm node, yarn)
-if ! command -v n &> /dev/null
-then
-  curl -L "https://git.io/n-install" | bash -s -- -y
-fi
-brew install yarn
-
-
-for caskName in ${brewCasks[@]}; do
-  if [[ " ${installedCasks[*]} " =~ " ${caskName} " ]]; then
-    echo "${caskName} already installed, skipping"
-  else
-    echo "Installing ${caskName}..."
-    brew install --cask ${caskName}
-  fi
-done
-
-if test ! -z $USE_CONFIG
-then
-  brew install --cask karabiner-elements
-  brew install --cask spotify
-  brew install --cask vlc
-fi
+installWithBrew brewCasks[@] installedBrewPackages[@] true
 
 echo "Homebrew cleanup"
 brew cleanup -s
@@ -124,5 +142,7 @@ brew doctor
 if test ! -z $USE_CONFIG
 then
   # symlink config files
+
+  # For karabiner, define the capslock key as a meta key (ctrl-shift-cmd-option) used for global shortcuts
   ln -sf "$DOTFILES_FOLDER/macos/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 fi

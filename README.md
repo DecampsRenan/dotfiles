@@ -50,6 +50,12 @@ sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/mac
 - itsycal
 - ntfstool
 - raycast
+- scrcpy
+- font-inconsolata
+- font-fira-code
+- watchman
+- ffmpeg
+- htop
 
 ### Config
 
