@@ -2,6 +2,19 @@
 
 set -e
 
+clear
+echo "  __  __               _____      _               "
+echo " |  \/  |             / ____|    | |              "
+echo " | \  / | __ _  ___  | (___   ___| |_ _   _ _ __  "
+echo " | |\/| |/ _\` |/ __|  \___ \ / _ \ __| | | | '_ \ "
+echo " | |  | | (_| | (__   ____) |  __/ |_| |_| | |_) |"
+echo " |_|  |_|\__,_|\___| |_____/ \___|\__|\__,_| .__/ "
+echo "                                           | |    "
+echo "                                           |_|    "
+echo "                                                  "
+echo "                                                  "
+
+
 function installWithBrew() {
   local packageList=("${!1}")
   local installedPackages=("${!2}")
