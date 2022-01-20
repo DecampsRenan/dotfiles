@@ -6,11 +6,17 @@
 
 If you are ok with the provided tools, you can install them by running one of the following commands:
 
-```bash
-# With curl
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh)"
+### Bash / ZSH
 
-# With wget
+With curl
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh)"
+```
+
+With wget
+
+```bash
 sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh -O -)"
 ```
 
