@@ -2,7 +2,7 @@
 
 **⚠️ MAKE SURE TO CHECK WHICH TOOLS WILL BE INSTALLED FIRST ⚠️**
 
-## Setup
+## Setup (MacOS)
 
 If you are ok with the provided tools, you can install them by running one of the following commands:
 
@@ -18,6 +18,20 @@ With wget
 
 ```bash
 sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh -O -)"
+```
+
+### Fish
+
+With curl
+
+```bash
+sh -c "(curl -fsSL https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh)"
+```
+
+With wget
+
+```bash
+sh -c "(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh -O -)"
 ```
 
 ## Installed softwares
@@ -62,10 +76,11 @@ sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/mac
 - watchman
 - ffmpeg
 - htop
+- virtualbox
 
 ### Config
 
 - Display full path and all files in Finder
 - Set a faster keyboard repeat rate
 - Set a shorter delay until key repeat
-- update gem install directory to be `$HOME/.gem`
+- update gem install directory to be `$HOME/.gem` (so no need to sudo in order to install packages)

@@ -14,6 +14,7 @@ echo "                                           |_|    "
 echo "                                                  "
 echo "                                                  "
 
+CURRENT_SHELL="$(basename "$SHELL")"
 
 function installWithBrew() {
   local packageList=("${!1}")
@@ -86,18 +87,17 @@ echo ""
 echo "Softwares"
 
 # JDK tools (java, groovy, etc...)
-curl -s "https://get.sdkman.io" | bash
-sed -i '' -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk install java 11.0.11.hs-adpt < /dev/null
-sdk install gradle < /dev/null
-
-# Node tools (n, npm node, yarn)
-if ! command -v n &> /dev/null
+echo "Installing jdk tooling (sdkman, java, gradle)"
+if ! command -v sdk &> /dev/null
 then
-  curl -L "https://git.io/n-install" | bash -s -- -y
+  curl -s "https://get.sdkman.io" | bash
+  sed -i '' -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
+  source "$HOME/.sdkman/bin/sdkman-init.sh"
+  sdk install java 11.0.11.hs-adpt < /dev/null
+  sdk install gradle < /dev/null
+else
+  echo "Already installed, skipping"
 fi
-
 installedBrewPackages=($(brew list -1 -q --full-name))
 
 brewFonts=(
@@ -107,44 +107,59 @@ brewFonts=(
 installWithBrew brewFonts[@] installedBrewPackages[@]
 
 brewCmds=(
-  "wget"
-  "rbenv"
-  "yarn"
-  "watchman"
-  "ffmpeg"
-  "scrcpy"
-  "htop"
+  "wget"      # alternative to curl, always nice to have
+  "rbenv"     # allow you to manage ruby environments
+  "yarn"      # alternative to npm
+  "watchman"  # usefull file watcher
+  "ffmpeg"    # media encoder
+  "scrcpy"    # allow to display you android screen on your computer, usefull when doing demo
+  "htop"      # processus viewer
 )
 installWithBrew brewCmds[@] installedBrewPackages[@]
 
+echo "Install nodejs tooling (fnm, node, npm)"
+if ! command -v fnm &> /dev/null
+then
+  curl -fsSL https://fnm.vercel.app/install | bash
+  fnm install --lts
+else
+  echo "Already installed, skipping"
+fi
+
 echo "Install ruby tooling (rbenv, cocoapods)"
-mkdir -p "$HOME/.gem"
-export GEM_HOME="$HOME/.gem"
-gem install cocoapods
+if ! command -v pod &> /dev/null
+then
+  mkdir -p "$HOME/.gem"
+  export GEM_HOME="$HOME/.gem"
+  gem install cocoapods
+else
+  echo "Already installed, skipping"
+fi
 
 # Softwares needed to be installed from brew --cask
 brewCasks=(
-  "ngrok"
-  "intellij-idea"
-  "android-studio"
-  "visual-studio-code"
-  "docker"
-  "iterm2"
-  "google-chrome"
-  "firefox"
-  "fork"
-  "slack"
-  "insomnia"
-  "notion"
-  "1password"
-  "karabiner-elements"
-  "spotify"
-  "vlc"
-  "the-unarchiver"
-  "imageoptim"
-  "itsycal"
-  "ntfstool"
-  "raycast"
+  "ngrok"               # App that allow to make localhost available for everyone
+  "intellij-idea"       # The go to editor for JVM based languages
+  "android-studio"      # Needed if you need to make android apps (also usefull to manage sdk and emulators)
+  "visual-studio-code"  # Code editor, the one I always use
+  "docker"              #
+  "iterm2"              # Replacement for the default Terminal.app
+  "google-chrome"       # My main browser
+  "firefox"             #
+  "fork"                #
+  "slack"               #
+  "insomnia"            #
+  "notion"              # App to document everything you want
+  "1password"           # Password manager
+  "karabiner-elements"  # Usefull when you need to replace or add macro on keyboard keys (I use it to replace the capslock key with a macro)
+  "spotify"             # To play music :D
+  "vlc"                 # Media player with a wide format support
+  "the-unarchiver"      # App that can extract a lot of archive format (zip, rar, gzip, etc...s)
+  "imageoptim"          # Usefull if you need to optimize images
+  "itsycal"             # Small calendar app you can use to replace the default one (come with some nice additional features)
+  "ntfstool"            # In order to be able to use ntfs filesystems (if you are working with windows)
+  "raycast"             # Replacement of the default cmd-space app launcher
+  "virtualbox"
 )
 installWithBrew brewCasks[@] installedBrewPackages[@] true
 
