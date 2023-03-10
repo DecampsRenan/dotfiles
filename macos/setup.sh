@@ -138,39 +138,30 @@ fi
 
 # Softwares needed to be installed from brew --cask
 brewCasks=(
-  "ngrok"               # App that allow to make localhost available for everyone
-  "intellij-idea"       # The go to editor for JVM based languages
-  "android-studio"      # Needed if you need to make android apps (also usefull to manage sdk and emulators)
-  "visual-studio-code"  # Code editor, the one I always use
-  "docker"              #
-  "iterm2"              # Replacement for the default Terminal.app
-  "google-chrome"       # My main browser
-  "firefox"             #
-  "fork"                #
-  "slack"               #
-  "insomnia"            #
-  "notion"              # App to document everything you want
-  "1password"           # Password manager
-  "karabiner-elements"  # Usefull when you need to replace or add macro on keyboard keys (I use it to replace the capslock key with a macro)
-  "spotify"             # To play music :D
-  "vlc"                 # Media player with a wide format support
-  "the-unarchiver"      # App that can extract a lot of archive format (zip, rar, gzip, etc...s)
-  "imageoptim"          # Usefull if you need to optimize images
-  "itsycal"             # Small calendar app you can use to replace the default one (come with some nice additional features)
-  "ntfstool"            # In order to be able to use ntfs filesystems (if you are working with windows)
-  "raycast"             # Replacement of the default cmd-space app launcher
-  "virtualbox"
+  "ngrok"                  # App that allow to make localhost available for everyone
+  "android-platform-tools" # Needed if you need to make android apps (also usefull to manage sdk and emulators)
+  "visual-studio-code"     # Code editor, the one I always use
+  "docker"                 #
+  "alacritty"              # Replacement for the default Terminal.app
+  "google-chrome"          # My main browser
+  "firefox"                #
+  "slack"                  #
+  "discord"                #
+  "insomnia"               #
+  "hyperkey"               # Tool I use to set the capslock key to be "cmd+ctrl+option+shift" (usefull for global shortcuts)
+  "notion"                 # App to document everything you want
+  "1password"              # Password manager
+  "karabiner-elements"     # Usefull when you need to replace or add macro on keyboard keys (I use it to replace the capslock key with a macro)
+  "spotify"                # To play music :D
+  "vlc"                    # Media player with a wide format support
+  "the-unarchiver"         # App that can extract a lot of archive format (zip, rar, gzip, etc...s)
+  "imageoptim"             # Usefull if you need to optimize images
+  "itsycal"                # Small calendar app you can use to replace the default one (come with some nice additional features)
+  "ntfstool"               # In order to be able to use ntfs filesystems (if you are working with windows)
+  "raycast"                # Replacement of the default cmd-space app launcher
 )
 installWithBrew brewCasks[@] installedBrewPackages[@] true
 
 echo "Homebrew cleanup"
 brew cleanup -s
 brew doctor
-
-if test ! -z $USE_CONFIG
-then
-  # symlink config files
-
-  # For karabiner, define the capslock key as a meta key (ctrl-shift-cmd-option) used for global shortcuts
-  ln -sf "$DOTFILES_FOLDER/macos/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
-fi
