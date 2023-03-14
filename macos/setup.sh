@@ -148,6 +148,7 @@ brewCasks=(
   "slack"                  #
   "discord"                #
   "insomnia"               #
+  "rectangle"              # Tool used to make window management easier
   "hyperkey"               # Tool I use to set the capslock key to be "cmd+ctrl+option+shift" (usefull for global shortcuts)
   "notion"                 # App to document everything you want
   "1password"              # Password manager
