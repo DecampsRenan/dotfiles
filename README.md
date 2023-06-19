@@ -1,8 +1,12 @@
-# Personnal dotfiles 
+# Personal dotfiles 
 
 **⚠️ MAKE SURE TO CHECK WHICH TOOLS WILL BE INSTALLED FIRST ⚠️**
 
 ## Setup (MacOS)
+
+### To check first
+
+A default setup for zsh using prezto can be found here: https://github.com/DecampsRenan/prezto-config
 
 If you are ok with the provided tools, you can install them by running one of the following commands:
 
@@ -20,63 +24,13 @@ With wget
 sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh -O -)"
 ```
 
-### Fish
-
-With curl
-
-```bash
-sh -c "(curl -fsSL https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh)"
-```
-
-With wget
-
-```bash
-sh -c "(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh -O -)"
-```
-
 ## Installed softwares
 
 ### Tools
 
-- Xcode Command Line Tools
-- Homebrew
-- wget
-- rbenv
-- cocoapods
-- ngrok
-- intellij ultimate
-- android-studio
-- visual-studio-code
-- docker
-- iterm2
-- google-chrome
-- firefox
-- fork
-- slack
-- insomnia
-- notion
-- 1password
-- sdkman
-- java 11
-- gradle lts
-- n (node version manager)
-- node lts
-- yarn 1
-- karabiner-elements
-- spotify
-- vlc
-- the-unarchiver
-- imageoptim
-- itsycal
-- ntfstool
-- raycast
-- scrcpy
-- font-inconsolata
-- font-fira-code
-- watchman
-- ffmpeg
-- htop
-- virtualbox
+- For gui apps, checks the `brewCasks` array in the `macos/setup.sh` file
+- For command line apps, checks the `brewCmds` array in the `macos/setup.sh` file
+- For fonts, checks the `brewFonts` array in the `macos/setup.sh` file
 
 ### Config
 
@@ -84,3 +38,4 @@ sh -c "(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/maco
 - Set a faster keyboard repeat rate
 - Set a shorter delay until key repeat
 - update gem install directory to be `$HOME/.gem` (so no need to sudo in order to install packages)
+- ec...

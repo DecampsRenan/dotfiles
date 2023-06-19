@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Force script to quit if any command returns a non zero code.
 set -e
 
 clear
@@ -36,7 +37,10 @@ function installWithBrew() {
 }
 
 echo "Asking you to log with sudo, so subsequent sudo calls can be automated"
-sudo echo ""
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `setup.sh` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 echo "Checking if Xcode Command Line tools are installed...";
 # Checks if path to command line tools exist
@@ -54,18 +58,6 @@ else
     tr -d '\n')
   softwareupdate -i "$PROD" --verbose;
 fi
-
-echo ""
-echo "Display full path and all files in Finder"
-defaults write com.apple.finder AppleShowAllFiles -boolean true
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
-killall Finder
-
-echo "Set a faster keyboard repeat rate"
-defaults write NSGlobalDomain KeyRepeat -int 6
-
-echo "Set a shorter Delay until key repeat"
-defaults write NSGlobalDomain InitialKeyRepeat -int 25
 
 echo ""
 echo "Checking if Homebrew is already installed...";
@@ -111,9 +103,10 @@ brewCmds=(
   "rbenv"     # allow you to manage ruby environments
   "yarn"      # alternative to npm
   "watchman"  # usefull file watcher
-  "ffmpeg"    # media encoder
-  "scrcpy"    # allow to display you android screen on your computer, usefull when doing demo
+  "ffmpeg"    # media encoder (https://ffmpeg.org/)
+  "scrcpy"    # allow to display you android screen on your computer, usefull when doing demo (https://github.com/Genymobile/scrcpy)
   "htop"      # processus viewer
+  "exa"       # nicer alternative to ls (https://github.com/ogham/exa)
 )
 installWithBrew brewCmds[@] installedBrewPackages[@]
 
@@ -142,14 +135,13 @@ brewCasks=(
   "android-platform-tools" # Needed if you need to make android apps (also usefull to manage sdk and emulators)
   "visual-studio-code"     # Code editor, the one I always use
   "docker"                 #
-  "alacritty"              # Replacement for the default Terminal.app
+  "iterm2"              # Replacement for the default Terminal.app
   "google-chrome"          # My main browser
-  "firefox"                #
-  "slack"                  #
+  "firefox"                # Alternative browser, usefull for testing browsers compatibility
+  "slack"                  # Main communication tool
   "discord"                #
   "insomnia"               #
   "rectangle"              # Tool used to make window management easier
-  "hyperkey"               # Tool I use to set the capslock key to be "cmd+ctrl+option+shift" (usefull for global shortcuts)
   "notion"                 # App to document everything you want
   "1password"              # Password manager
   "karabiner-elements"     # Usefull when you need to replace or add macro on keyboard keys (I use it to replace the capslock key with a macro)
@@ -166,3 +158,131 @@ installWithBrew brewCasks[@] installedBrewPackages[@] true
 echo "Homebrew cleanup"
 brew cleanup -s
 brew doctor
+
+echo ""
+echo "#############################"
+echo "# Setting global mac configs"
+echo "# Heavily inspired from https://github.com/stefanjudis/dotfiles/blob/primary/scripts/mac.sh"
+echo "#############################"
+echo ""
+
+echo "Disable the sound effects on boot"
+sudo nvram SystemAudioVolume=" "
+
+echo "Keep spaces arrangement - do not reorder spaces based on usage"
+defaults write com.apple.dock "mru-spaces" -bool "false"
+
+echo "Finder: show all filename extensions"
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+echo "show hidden files by default"
+defaults write com.apple.Finder AppleShowAllFiles -bool true
+
+echo "only use UTF-8 in Terminal.app"
+defaults write com.apple.terminal StringEncodings -array 4
+
+echo "show the ~/Library folder in Finder"
+chflags nohidden ~/Library
+
+echo "Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)"
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+echo "When performing a search, search the current folder by default"
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+echo "Disable the warning when changing a file extension"
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+echo "Avoid creating .DS_Store files on network volumes"
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+echo "Enable subpixel font rendering on non-Apple LCDs"
+defaults write NSGlobalDomain AppleFontSmoothing -int 2
+
+echo "Use current directory as default search scope in Finder"
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+echo "Show Path bar in Finder"
+defaults write com.apple.finder ShowPathbar -bool true
+
+echo "Show Status bar in Finder"
+defaults write com.apple.finder ShowStatusBar -bool true
+
+echo "Set a blazingly fast keyboard repeat rate"
+defaults write NSGlobalDomain KeyRepeat -int 1
+
+echo "Set a shorter Delay until key repeat"
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+echo "Repeats the key as long as it is held down"
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+echo "disabling smart quotes and dashes..."
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+echo "Set date display in menu bar"
+defaults write com.apple.menuextra.clock "DateFormat" "EEE MMM d  H.mm"
+
+echo "Expand save panel by default"
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+echo "Expand print panel by default"
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+echo "Disable the “Are you sure you want to open this application?” dialog"
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+echo "Stop iTunes from responding to the keyboard media keys"
+launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
+
+echo "Save to disk (not to iCloud) by default"
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+echo "Remove delay when taking a screenshot"
+defaults write com.apple.screencapture show-thumbnail -bool false
+
+echo "Store screenshots in /tmp"
+defaults write com.apple.screencapture location /tmp
+
+echo "Hide 'recent applications' from dock"
+defaults write com.apple.dock show-recents -bool false
+
+echo "Set smaller dock icon size"
+defaults write com.apple.dock tilesize -int 34
+
+echo "Position the dock to the left"
+defaults write com.apple.dock orientation -string left
+
+echo "Show bluetooth and other in the menubar"
+defaults write com.apple.systemuiserver menuExtras -array "/System/Library/CoreServices/Menu Extras/AirPort.menu" "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" "/System/Library/CoreServices/Menu Extras/Displays.menu" "/System/Library/CoreServices/Menu Extras/Volume.menu"
+
+echo "Disable CMD+space for spotlight (because I prefer to use it for Raycast)"
+/usr/libexec/PlistBuddy ~/Library/Preferences/com.apple.symbolichotkeys.plist -c "Set AppleSymbolicHotKeys:64:enabled false"
+
+echo "Always show scrollbars"
+defaults write -g AppleShowScrollBars -string "Always"
+
+echo "Increase sound quality for Bluetooth headphones/headsets"
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+
+echo "***"
+echo "* iTerm2 Config"
+echo "***"
+echo "Don’t display the annoying prompt when quitting iTerm"
+defaults write com.googlecode.iterm2 PromptOnQuit -bool false
+
+# echo "Set red accent and highlight color"
+# # more info https://github.com/yuhonas/osx-colors/blob/main/src/color_utils.py
+# defaults write -g AppleAccentColor -string 0
+# defaults write -g AppleHighlightColor -string "1.000000 0.733333 0.721569 Red"
+
+
+echo "Update Apple developer utils"
+softwareupdate --all --install --force
+
+killall SystemUIServer
+killall "Dock"
