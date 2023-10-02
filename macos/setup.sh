@@ -67,13 +67,15 @@ echo "Checking if Homebrew is already installed...";
 if test ! $(which brew); then
   echo "Installing Homebrew...";
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-  echo "Homebrew is already installed, try to upgrade...";
-  brew tap homebrew/cask-drivers
-  brew tap homebrew/cask-versions
-  brew tap homebrew/cask-fonts
-  brew update
 fi
+
+echo "Homebrew installed, try to upgrade...";
+brew tap homebrew/cask-drivers
+brew tap homebrew/cask-versions
+brew tap homebrew/cask-fonts
+brew tap homebrew/cask
+brew update
+brew analytics off
 
 echo ""
 echo "Softwares"
@@ -95,6 +97,7 @@ installedBrewPackages=($(brew list -1 -q --full-name))
 brewFonts=(
   "font-inconsolata"
   "font-fira-code"
+  ""
 )
 installWithBrew brewFonts[@] installedBrewPackages[@]
 
@@ -135,7 +138,7 @@ brewCasks=(
   "android-platform-tools" # Needed if you need to make android apps (also usefull to manage sdk and emulators)
   "visual-studio-code"     # Code editor, the one I always use
   "docker"                 #
-  "iterm2"              # Replacement for the default Terminal.app
+  "iterm2"                 # Replacement for the default Terminal.app
   "google-chrome"          # My main browser
   "firefox"                # Alternative browser, usefull for testing browsers compatibility
   "slack"                  # Main communication tool
