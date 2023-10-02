@@ -86,7 +86,7 @@ then
   curl -s "https://get.sdkman.io" | bash
   sed -i '' -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
   source "$HOME/.sdkman/bin/sdkman-init.sh"
-  sdk install java 11.0.11.hs-adpt < /dev/null
+  sdk install java 11.0.14.1-jbr < /dev/null
   sdk install gradle < /dev/null
 else
   echo "Already installed, skipping"
