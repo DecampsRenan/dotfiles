@@ -96,7 +96,6 @@ installedBrewPackages=($(brew list -1 -q --full-name))
 brewFonts=(
   "font-inconsolata"
   "font-fira-code"
-  ""
 )
 installWithBrew brewFonts[@] installedBrewPackages[@]
 
