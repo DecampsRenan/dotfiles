@@ -70,7 +70,6 @@ if test ! $(which brew); then
 fi
 
 echo "Homebrew installed, try to upgrade...";
-brew tap homebrew/cask-drivers
 brew tap homebrew/cask-versions
 brew tap homebrew/cask-fonts
 brew tap homebrew/cask
