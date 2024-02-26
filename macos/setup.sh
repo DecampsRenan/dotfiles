@@ -106,7 +106,7 @@ brewCmds=(
   "ffmpeg"    # media encoder (https://ffmpeg.org/)
   "scrcpy"    # allow to display you android screen on your computer, usefull when doing demo (https://github.com/Genymobile/scrcpy)
   "htop"      # processus viewer
-  "exa"       # nicer alternative to ls (https://github.com/ogham/exa)
+  "eza"       # nicer alternative to ls (https://github.com/ogham/exa)
 )
 installWithBrew brewCmds[@] installedBrewPackages[@]
 
