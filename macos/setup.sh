@@ -112,8 +112,8 @@ installWithBrew brewCmds[@] installedBrewPackages[@]
 
 # define default ruby version
 eval "$(rbenv init - zsh)"
-rbenv global "3.3.0"
 rbenv install "3.3.0"
+rbenv global "3.3.0"
 
 echo "Install nodejs tooling (fnm, node, npm)"
 if ! command -v fnm &> /dev/null
