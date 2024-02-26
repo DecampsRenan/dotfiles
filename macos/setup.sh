@@ -153,6 +153,7 @@ brewCasks=(
   "itsycal"                # Small calendar app you can use to replace the default one (come with some nice additional features)
   "ntfstool"               # In order to be able to use ntfs filesystems (if you are working with windows)
   "raycast"                # Replacement of the default cmd-space app launcher
+  "shottr"                 # Replacement of the default screen capture tool for macos
 )
 installWithBrew brewCasks[@] installedBrewPackages[@] true
 
@@ -169,6 +170,11 @@ echo ""
 
 echo "Disable the sound effects on boot"
 sudo nvram SystemAudioVolume=" "
+
+echo 'Disable Personalized advertisements and identifier collection'
+defaults write com.apple.AdLib allowIdentifierForAdvertising -bool false
+defaults write com.apple.AdLib allowApplePersonalizedAdvertising -bool false
+defaults write com.apple.AdLib forceLimitAdTracking -bool true
 
 echo "Keep spaces arrangement - do not reorder spaces based on usage"
 defaults write com.apple.dock "mru-spaces" -bool "false"
@@ -243,8 +249,41 @@ launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/nul
 echo "Save to disk (not to iCloud) by default"
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
+echo 'Disable Internet based spell correction'
+defaults write NSGlobalDomain WebAutomaticSpellingCorrectionEnabled -bool false
+
 echo "Remove delay when taking a screenshot"
 defaults write com.apple.screencapture show-thumbnail -bool false
+
+echo 'Disable "Ask Siri"'
+defaults write com.apple.assistant.support 'Assistant Enabled' -bool false
+
+echo 'Disable Siri voice feedback'
+defaults write com.apple.assistant.backedup 'Use device speaker for TTS' -int 3
+
+echo 'Disable Siri services (Siri and assistantd)'
+launchctl disable "user/$UID/com.apple.assistantd"
+launchctl disable "gui/$UID/com.apple.assistantd"
+sudo launchctl disable 'system/com.apple.assistantd'
+launchctl disable "user/$UID/com.apple.Siri.agent"
+launchctl disable "gui/$UID/com.apple.Siri.agent"
+sudo launchctl disable 'system/com.apple.Siri.agent'
+if [ $(/usr/bin/csrutil status | awk '/status/ {print $5}' | sed 's/\.$//') = "enabled" ]; then
+    >&2 echo 'This script requires SIP to be disabled. Read more: https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection'
+fi
+
+echo 'Disable "Do you want to enable Siri?" pop-up'
+defaults write com.apple.SetupAssistant 'DidSeeSiriSetup' -bool True
+
+echo 'Hide Siri from menu bar'
+defaults write com.apple.systemuiserver 'NSStatusItem Visible Siri' 0
+
+echo 'Hide Siri from status menu'
+defaults write com.apple.Siri 'StatusMenuVisible' -bool false
+defaults write com.apple.Siri 'UserHasDeclinedEnable' -bool true
+
+echo 'Opt-out from Siri data collection'
+defaults write com.apple.assistant.support 'Siri Data Sharing Opt-In Status' -int 2
 
 echo "Store screenshots in /tmp"
 defaults write com.apple.screencapture location /tmp
@@ -269,6 +308,47 @@ defaults write -g AppleShowScrollBars -string "Always"
 
 echo "Increase sound quality for Bluetooth headphones/headsets"
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+
+echo 'Disable Microsoft Office diagnostics data sending'
+defaults write com.microsoft.office DiagnosticDataTypePreference -string ZeroDiagnosticData
+
+echo 'Disable Homebrew user behavior analytics'
+command='export HOMEBREW_NO_ANALYTICS=1'
+declare -a profile_files=("$HOME/.bash_profile" "$HOME/.zprofile")
+for profile_file in "${profile_files[@]}"
+do
+    touch "$profile_file"
+    if ! grep -q "$command" "${profile_file}"; then
+        echo "$command" >> "$profile_file"
+        echo "[$profile_file] Configured"
+    else
+        echo "[$profile_file] No need for any action, already configured"
+    fi
+done
+
+echo 'Disable Firefox telemetry'
+# Enable Firefox policies so the telemetry can be configured.
+sudo defaults write /Library/Preferences/org.mozilla.firefox EnterprisePoliciesEnabled -bool TRUE
+# Disable sending usage data
+sudo defaults write /Library/Preferences/org.mozilla.firefox DisableTelemetry -bool TRUE
+
+echo 'Disable remote login (incoming SSH and SFTP connections)'
+echo 'yes' | sudo systemsetup -setremotelogin off
+
+echo 'Disable insecure TFTP service'
+sudo launchctl disable 'system/com.apple.tftpd'
+
+echo 'Disable insecure telnet protocol'
+sudo launchctl disable system/com.apple.telnetd
+
+echo 'Disables signing in as Guest from the login screen'
+sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool NO
+
+echo 'Disables Guest access to file shares over AF'
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server AllowGuestAccess -bool NO
+
+echo 'Disables Guest access to file shares over SMB'
+sudo defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool NO
 
 echo "***"
 echo "* iTerm2 Config"
