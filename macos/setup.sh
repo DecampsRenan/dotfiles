@@ -158,6 +158,7 @@ brewCasks=(
   "ntfstool"               # In order to be able to use ntfs filesystems (if you are working with windows)
   "raycast"                # Replacement of the default cmd-space app launcher
   "shottr"                 # Replacement of the default screen capture tool for macos
+  "git-credential-manager" # Credential manager for git credentials (cf. https://github.com/git-ecosystem/git-credential-manager)
 )
 installWithBrew brewCasks[@] installedBrewPackages[@] true
 
@@ -234,7 +235,7 @@ defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
 echo "Set date display in menu bar"
-defaults write com.apple.menuextra.clock "DateFormat" "EEE MMM d  H.mm"
+defaults write com.apple.menuextra.clock "DateFormat" "HH.mm"
 
 echo "Expand save panel by default"
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
