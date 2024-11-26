@@ -70,10 +70,8 @@ if test ! $(which brew); then
 fi
 
 echo "Homebrew installed, try to upgrade...";
-brew tap homebrew/cask-versions
-brew tap homebrew/cask-fonts
-brew update
 brew analytics off
+brew update
 
 echo ""
 echo "Softwares"
@@ -100,13 +98,12 @@ installWithBrew brewFonts[@] installedBrewPackages[@]
 
 brewCmds=(
   "wget"      # alternative to curl, always nice to have
-  "rbenv"     # allow you to manage ruby environments
-  "yarn"      # alternative to npm
+  "rbenv"     # allow you to manage ruby environments (usefull when doing react native on ios)
   "watchman"  # usefull file watcher
   "ffmpeg"    # media encoder (https://ffmpeg.org/)
   "scrcpy"    # allow to display you android screen on your computer, usefull when doing demo (https://github.com/Genymobile/scrcpy)
   "htop"      # processus viewer
-  "eza"       # nicer alternative to ls (https://github.com/ogham/exa)
+  "eza"       # nicer alternative to ls (https://github.com/eza-community/eza)
 )
 installWithBrew brewCmds[@] installedBrewPackages[@]
 
@@ -138,15 +135,12 @@ fi
 brewCasks=(
   "ngrok"                  # App that allow to make localhost available for everyone
   "android-platform-tools" # Needed if you need to make android apps (also usefull to manage sdk and emulators)
-  "visual-studio-code"     # Code editor, the one I always use
-  "docker"                 #
+  "visual-studio-code"
+  "docker"
   "iterm2"                 # Replacement for the default Terminal.app
-  "google-chrome"          # My main browser
-  "firefox"                # Alternative browser, usefull for testing browsers compatibility
+  "google-chrome"
+  "firefox"
   "slack"                  # Main communication tool
-  "discord"                #
-  "insomnia"               #
-  "rectangle"              # Tool used to make window management easier
   "notion"                 # App to document everything you want
   "1password"              # Password manager
   "karabiner-elements"     # Usefull when you need to replace or add macro on keyboard keys (I use it to replace the capslock key with a macro)
@@ -155,7 +149,6 @@ brewCasks=(
   "the-unarchiver"         # App that can extract a lot of archive format (zip, rar, gzip, etc...s)
   "imageoptim"             # Usefull if you need to optimize images
   "itsycal"                # Small calendar app you can use to replace the default one (come with some nice additional features)
-  "ntfstool"               # In order to be able to use ntfs filesystems (if you are working with windows)
   "raycast"                # Replacement of the default cmd-space app launcher
   "shottr"                 # Replacement of the default screen capture tool for macos
   "git-credential-manager" # Credential manager for git credentials (cf. https://github.com/git-ecosystem/git-credential-manager)
@@ -165,6 +158,7 @@ installWithBrew brewCasks[@] installedBrewPackages[@] true
 echo "Homebrew cleanup"
 brew cleanup -s
 brew doctor
+#############"
 
 echo ""
 echo "#############################"
@@ -182,7 +176,7 @@ defaults write com.apple.AdLib allowApplePersonalizedAdvertising -bool false
 defaults write com.apple.AdLib forceLimitAdTracking -bool true
 
 echo "Keep spaces arrangement - do not reorder spaces based on usage"
-defaults write com.apple.dock "mru-spaces" -bool "false"
+defaults write com.apple.dock "mru-spaces" -bool false
 
 echo "Finder: show all filename extensions"
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
@@ -198,9 +192,6 @@ chflags nohidden ~/Library
 
 echo "Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)"
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
-
-echo "When performing a search, search the current folder by default"
-defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
 echo "Disable the warning when changing a file extension"
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
@@ -230,7 +221,7 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 echo "Repeats the key as long as it is held down"
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
-echo "disabling smart quotes and dashes..."
+echo "disabling smart quotes and dashes"
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
@@ -290,17 +281,11 @@ defaults write com.apple.Siri 'UserHasDeclinedEnable' -bool true
 echo 'Opt-out from Siri data collection'
 defaults write com.apple.assistant.support 'Siri Data Sharing Opt-In Status' -int 2
 
-echo "Store screenshots in /tmp"
-defaults write com.apple.screencapture location /tmp
-
 echo "Hide 'recent applications' from dock"
 defaults write com.apple.dock show-recents -bool false
 
 echo "Set smaller dock icon size"
 defaults write com.apple.dock tilesize -int 34
-
-echo "Position the dock to the left"
-defaults write com.apple.dock orientation -string left
 
 echo "Show bluetooth and other in the menubar"
 defaults write com.apple.systemuiserver menuExtras -array "/System/Library/CoreServices/Menu Extras/AirPort.menu" "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" "/System/Library/CoreServices/Menu Extras/Displays.menu" "/System/Library/CoreServices/Menu Extras/Volume.menu"
@@ -354,18 +339,6 @@ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.serve
 
 echo 'Disables Guest access to file shares over SMB'
 sudo defaults write /Library/Preferences/com.apple.AppleFileServer guestAccess -bool NO
-
-echo "***"
-echo "* iTerm2 Config"
-echo "***"
-echo "Don’t display the annoying prompt when quitting iTerm"
-defaults write com.googlecode.iterm2 PromptOnQuit -bool false
-
-# echo "Set red accent and highlight color"
-# # more info https://github.com/yuhonas/osx-colors/blob/main/src/color_utils.py
-# defaults write -g AppleAccentColor -string 0
-# defaults write -g AppleHighlightColor -string "1.000000 0.733333 0.721569 Red"
-
 
 echo "Update Apple developer utils"
 softwareupdate --all --install --force
