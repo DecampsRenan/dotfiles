@@ -77,17 +77,18 @@ echo ""
 echo "Softwares"
 
 # JDK tools (java, groovy, etc...)
-# echo "Installing jdk tooling (sdkman, java, gradle)"
-# if ! command -v sdk &> /dev/null
-# then
-#   curl -s "https://get.sdkman.io" | bash
-#   sed -i '' -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
-#   source "$HOME/.sdkman/bin/sdkman-init.sh"
-#   sdk install java 11.0.14.1-jbr < /dev/null
-#   sdk install gradle < /dev/null
-# else
-#   echo "Already installed, skipping"
-# fi
+echo "Installing jdk tooling (sdkman, java, gradle)"
+if ! command -v sdk &> /dev/null
+then
+  curl -s "https://get.sdkman.io" | bash
+  sed -i '' -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
+  source "$HOME/.sdkman/bin/sdkman-init.sh"
+  sdk install java 11.0.14.1-jbr < /dev/null
+  sdk install gradle < /dev/null
+else
+  echo "Already installed, skipping"
+fi
+
 installedBrewPackages=($(brew list -1 -q --full-name))
 
 brewFonts=(
