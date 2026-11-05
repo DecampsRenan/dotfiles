@@ -15,8 +15,6 @@ echo "                                           |_|    "
 echo "                                                  "
 echo "                                                  "
 
-CURRENT_SHELL="$(basename "$SHELL")"
-
 function installWithBrew() {
   local packageList=("${!1}")
   local installedPackages=("${!2}")
@@ -40,36 +38,40 @@ echo "Asking you to log with sudo, so subsequent sudo calls can be automated"
 sudo -v
 
 # Keep-alive: update existing `sudo` time stamp until `setup.sh` has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+while true; do
+  sudo -n true
+  sleep 60
+  kill -0 "$$" || exit
+done 2>/dev/null &
 
-echo "Checking if Xcode Command Line tools are installed...";
+echo "Checking if Xcode Command Line tools are installed..."
 # Checks if path to command line tools exist
 # Credit: https://apple.stackexchange.com/questions/219507/best-way-to-check-in-bash-if-command-line-tools-are-installed
-if type xcode-select >&- && xpath=$( xcode-select --print-path ) &&
-  test -d "${xpath}" && test -x "${xpath}" ; then
-  echo "Xcode Command Line tools are already installed, skipping";
+if type xcode-select >&- && xpath=$(xcode-select --print-path) &&
+  test -d "${xpath}" && test -x "${xpath}"; then
+  echo "Xcode Command Line tools are already installed, skipping"
 else
-  echo "Installing Xcode Command Line Tools...";
-  touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress;
+  echo "Installing Xcode Command Line Tools..."
+  touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
   PROD=$(softwareupdate -l |
     grep "\*.*Command Line" |
     head -n 1 | awk -F"*" '{print $2}' |
     sed -e 's/^ *//' |
     tr -d '\n')
-  softwareupdate -i "$PROD" --verbose;
+  softwareupdate -i "$PROD" --verbose
 fi
 
 echo ""
-echo "Checking if Homebrew is already installed...";
+echo "Checking if Homebrew is already installed..."
 
 # Checks if Homebrew is installed
 # Credit: https://gist.github.com/codeinthehole/26b37efa67041e1307db
 if test ! $(which brew); then
-  echo "Installing Homebrew...";
+  echo "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-echo "Homebrew installed, try to upgrade...";
+echo "Homebrew installed, try to upgrade..."
 brew analytics off
 brew update
 
@@ -78,13 +80,12 @@ echo "Softwares"
 
 # JDK tools (java, groovy, etc...)
 echo "Installing jdk tooling (sdkman, java, gradle)"
-if ! command -v sdk &> /dev/null
-then
+if ! command -v sdk &>/dev/null; then
   curl -s "https://get.sdkman.io" | bash
   sed -i '' -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
   source "$HOME/.sdkman/bin/sdkman-init.sh"
-  sdk install java 11.0.14.1-jbr < /dev/null
-  sdk install gradle < /dev/null
+  sdk install java 11.0.14.1-jbr </dev/null
+  sdk install gradle </dev/null
 else
   echo "Already installed, skipping"
 fi
@@ -98,13 +99,13 @@ brewFonts=(
 installWithBrew brewFonts[@] installedBrewPackages[@]
 
 brewCmds=(
-  "wget"      # alternative to curl, always nice to have
-  "rbenv"     # allow you to manage ruby environments (usefull when doing react native on ios)
-  "watchman"  # usefull file watcher
-  "ffmpeg"    # media encoder (https://ffmpeg.org/)
-  "scrcpy"    # allow to display you android screen on your computer, usefull when doing demo (https://github.com/Genymobile/scrcpy)
-  "htop"      # processus viewer
-  "eza"       # nicer alternative to ls (https://github.com/eza-community/eza)
+  "wget"     # alternative to curl, always nice to have
+  "rbenv"    # allow you to manage ruby environments (usefull when doing react native on ios)
+  "watchman" # usefull file watcher
+  "ffmpeg"   # media encoder (https://ffmpeg.org/)
+  "scrcpy"   # allow to display you android screen on your computer, usefull when doing demo (https://github.com/Genymobile/scrcpy)
+  "htop"     # processus viewer
+  "eza"      # nicer alternative to ls (https://github.com/eza-community/eza)
 )
 installWithBrew brewCmds[@] installedBrewPackages[@]
 
@@ -114,8 +115,7 @@ rbenv install "3.3.0" --skip-existing
 rbenv global "3.3.0" --skip-existing
 
 echo "Install nodejs tooling (fnm, node, npm)"
-if ! command -v fnm &> /dev/null
-then
+if ! command -v fnm &>/dev/null; then
   curl -fsSL https://fnm.vercel.app/install | bash
   fnm install --lts
 else
@@ -123,8 +123,7 @@ else
 fi
 
 echo "Install ruby tooling (rbenv, cocoapods)"
-if ! command -v pod &> /dev/null
-then
+if ! command -v pod &>/dev/null; then
   mkdir -p "$HOME/.gem"
   export GEM_HOME="$HOME/.gem"
   gem install cocoapods
@@ -134,25 +133,22 @@ fi
 
 # Softwares needed to be installed from brew --cask
 brewCasks=(
-  "ngrok"                  # App that allow to make localhost available for everyone
   "android-platform-tools" # Needed if you need to make android apps (also usefull to manage sdk and emulators)
   "visual-studio-code"
   "docker"
-  "iterm2"                 # Replacement for the default Terminal.app
+  "ghostty" # Replacement for the default Terminal.app
   "google-chrome"
   "firefox"
-  "slack"                  # Main communication tool
-  "notion"                 # App to document everything you want
-  "1password"              # Password manager
-  "karabiner-elements"     # Usefull when you need to replace or add macro on keyboard keys (I use it to replace the capslock key with a macro)
-  "spotify"                # To play music :D
-  "vlc"                    # Media player with a wide format support
-  "the-unarchiver"         # App that can extract a lot of archive format (zip, rar, gzip, etc...s)
-  "imageoptim"             # Usefull if you need to optimize images
-  "itsycal"                # Small calendar app you can use to replace the default one (come with some nice additional features)
-  "raycast"                # Replacement of the default cmd-space app launcher
-  "shottr"                 # Replacement of the default screen capture tool for macos
-  "git-credential-manager" # Credential manager for git credentials (cf. https://github.com/git-ecosystem/git-credential-manager)
+  "slack"          # Main communication tool
+  "notion"         # App to document everything you want
+  "1password"      # Password manager
+  "spotify"        # To play music :D
+  "vlc"            # Media player with a wide format support
+  "the-unarchiver" # App that can extract a lot of archive format (zip, rar, gzip, etc...s)
+  "imageoptim"     # Usefull if you need to optimize images
+  "itsycal"        # Small calendar app you can use to replace the default one (come with some nice additional features)
+  "raycast"        # Replacement of the default cmd-space app launcher
+  "shottr"         # Replacement of the default screen capture tool for macos
 )
 installWithBrew brewCasks[@] installedBrewPackages[@] true
 
@@ -237,11 +233,11 @@ echo "Expand print panel by default"
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
-echo "Disable the “Are you sure you want to open this application?” dialog"
+echo "Disable the \"Are you sure you want to open this application?\" dialog"
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 echo "Stop iTunes from responding to the keyboard media keys"
-launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
+launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2>/dev/null
 
 echo "Save to disk (not to iCloud) by default"
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
@@ -265,8 +261,8 @@ sudo launchctl disable 'system/com.apple.assistantd'
 launchctl disable "user/$UID/com.apple.Siri.agent"
 launchctl disable "gui/$UID/com.apple.Siri.agent"
 sudo launchctl disable 'system/com.apple.Siri.agent'
-if [ $(/usr/bin/csrutil status | awk '/status/ {print $5}' | sed 's/\.$//') = "enabled" ]; then
-    >&2 echo 'This script requires SIP to be disabled. Read more: https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection'
+if [ "$(/usr/bin/csrutil status | awk '/status/ {print $5}' | sed 's/\.$//')" = "enabled" ]; then
+  >&2 echo 'This script requires SIP to be disabled. Read more: https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection'
 fi
 
 echo 'Disable "Do you want to enable Siri?" pop-up'
@@ -306,15 +302,14 @@ defaults write com.microsoft.office DiagnosticDataTypePreference -string ZeroDia
 echo 'Disable Homebrew user behavior analytics'
 command='export HOMEBREW_NO_ANALYTICS=1'
 declare -a profile_files=("$HOME/.bash_profile" "$HOME/.zprofile")
-for profile_file in "${profile_files[@]}"
-do
-    touch "$profile_file"
-    if ! grep -q "$command" "${profile_file}"; then
-        echo "$command" >> "$profile_file"
-        echo "[$profile_file] Configured"
-    else
-        echo "[$profile_file] No need for any action, already configured"
-    fi
+for profile_file in "${profile_files[@]}"; do
+  touch "$profile_file"
+  if ! grep -q "$command" "${profile_file}"; then
+    echo "$command" >>"$profile_file"
+    echo "[$profile_file] Configured"
+  else
+    echo "[$profile_file] No need for any action, already configured"
+  fi
 done
 
 echo 'Disable Firefox telemetry'
@@ -346,3 +341,6 @@ softwareupdate --all --install --force
 
 killall SystemUIServer
 killall "Dock"
+
+echo ""
+echo "✅ Done! You can optionnaly reboot your system to make sure all updates are taken into account"
