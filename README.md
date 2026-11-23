@@ -1,41 +1,33 @@
-# Personal dotfiles 
+# Personal dotfiles
 
 **⚠️ MAKE SURE TO CHECK WHICH TOOLS WILL BE INSTALLED FIRST ⚠️**
 
-## Setup (MacOS)
+## Setup (macOS)
 
-### To check first
+The whole setup is declared in [`mise.toml`](mise.toml) and applied by
+[`mise bootstrap`](https://mise.jdx.dev/bootstrap.html). Homebrew is not needed:
+mise installs formulae and casks itself.
 
-A default setup for zsh using prezto can be found here: https://github.com/DecampsRenan/prezto-config
-
-If you are ok with the provided tools, you can install them by running one of the following commands:
-
-### Bash / ZSH
-
-With curl
+Install mise, then bootstrap from this repository:
 
 ```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh)"
+curl https://mise.run | sh
+~/.local/bin/mise bootstrap --from https://github.com/DecampsRenan/dotfiles.git --dry-run
+~/.local/bin/mise bootstrap --from https://github.com/DecampsRenan/dotfiles.git
 ```
 
-With wget
+To apply new commits later:
 
 ```bash
-sh -c "$(wget https://raw.githubusercontent.com/DecampsRenan/dotfiles/master/macos/setup.sh -O -)"
+mise bootstrap --from https://github.com/DecampsRenan/dotfiles.git --update
 ```
 
-## Installed softwares
+## What it sets up
 
-### Tools
-
-- For gui apps, checks the `brewCasks` array in the `macos/setup.sh` file
-- For command line apps, checks the `brewCmds` array in the `macos/setup.sh` file
-- For fonts, checks the `brewFonts` array in the `macos/setup.sh` file
-
-### Config
-
-- Display full path and all files in Finder
-- Set a faster keyboard repeat rate
-- Set a shorter delay until key repeat
-- update gem install directory to be `$HOME/.gem` (so no need to sudo in order to install packages)
-- etc...
+- Apps, fonts and command line tools: `[bootstrap.packages]` in `mise.toml`
+- Global runtimes (Java, Gradle, Ruby, CocoaPods, Node.js): `macos/bootstrap.sh`
+- fish as login shell, with mise activated in it
+- macOS preferences (Dock, Finder, keyboard, trackpad, privacy, Siri…):
+  `[bootstrap.settings.macos]` in `mise.toml`
+- System settings that need `sudo` (guest account, remote login, telemetry…):
+  `macos/bootstrap.sh`, run as the `bootstrap` task

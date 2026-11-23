@@ -1,0 +1,154 @@
+#:schema https://mise.jdx.dev/schema/mise.json
+#:tombi toml-version = "v1.1.0"
+
+[tools]
+tombi = "latest"
+shfmt = "latest"
+
+# Installed by mise, without Homebrew
+[bootstrap.packages]
+# Fonts
+"brew-cask:font-inconsolata" = "latest"
+"brew-cask:font-fira-code" = "latest"
+
+# Command line
+"brew:fish" = "latest"
+"brew:wget" = "latest"
+"brew:watchman" = "latest"
+"brew:ffmpeg" = "latest"
+"brew:htop" = "latest"
+"brew:eza" = "latest"
+
+# Apps
+"brew-cask:android-platform-tools" = "latest"
+"brew-cask:orbstack" = "latest"
+"brew-cask:ghostty" = "latest"
+"brew-cask:slack" = "latest"
+"brew-cask:1password" = "latest"
+"brew-cask:vlc" = "latest"
+"brew-cask:the-unarchiver" = "latest"
+"brew-cask:imageoptim" = "latest"
+"brew-cask:raycast" = "latest"
+"brew-cask:shottr" = "latest"
+
+# Take over apps already in /Applications instead of failing
+[bootstrap.brew]
+adopt = true
+
+[bootstrap.user]
+login_shell = "fish"
+
+[bootstrap.mise_shell_activate]
+fish = "auto"
+
+[bootstrap.settings.macos.dock]
+autohide = false
+magnification = false
+show_recents = false
+mru_spaces = false
+orientation = "bottom"
+tilesize = 34
+
+[bootstrap.settings.macos.finder]
+show_all_files = true
+show_pathbar = true
+show_status_bar = false
+show_extensions_warning = false
+sort_folders_first = true
+preferred_view_style = "column"
+save_new_documents_to_cloud = false
+
+[bootstrap.settings.macos.keyboard]
+key_repeat = 1
+initial_key_repeat = 15
+press_and_hold = false                # repeat a held key instead of offering accents
+automatic_capitalization = false
+automatic_spelling_correction = false
+fn_state = false                      # needs fn to use F1 - F12
+
+[bootstrap.settings.macos.trackpad]
+tap_to_click = true
+three_finger_drag = true
+
+[bootstrap.settings.macos.login_items]
+apps = ["/Applications/Raycast.app", "/Applications/Shottr.app"]
+
+[bootstrap.settings.macos.defaults.NSGlobalDomain]
+AppleShowAllExtensions = true
+AppleKeyboardUIMode = 3                       # Tab moves through every control
+AppleShowScrollBars = "Always"
+NSAutomaticQuoteSubstitutionEnabled = false
+NSAutomaticDashSubstitutionEnabled = false
+WebAutomaticSpellingCorrectionEnabled = false
+NSNavPanelExpandedStateForSaveMode = true
+NSNavPanelExpandedStateForSaveMode2 = true
+PMPrintingExpandedStateForPrint = true
+PMPrintingExpandedStateForPrint2 = true
+
+[bootstrap.settings.macos.defaults."com.apple.finder"]
+FXDefaultSearchScope = "SCcf" # search the current folder
+
+[bootstrap.settings.macos.defaults."com.apple.desktopservices"]
+DSDontWriteNetworkStores = true
+DSDontWriteUSBStores = true
+
+[bootstrap.settings.macos.defaults."com.apple.screencapture"]
+type = "png"
+disable-shadow = true
+show-thumbnail = false
+
+[bootstrap.settings.macos.defaults."com.apple.LaunchServices"]
+LSQuarantine = false # no "Are you sure you want to open this application?" dialog
+
+[bootstrap.settings.macos.defaults."com.apple.AdLib"]
+allowIdentifierForAdvertising = false
+allowApplePersonalizedAdvertising = false
+forceLimitAdTracking = true
+
+[bootstrap.settings.macos.defaults."com.apple.assistant.support"]
+"Assistant Enabled" = false
+"Siri Data Sharing Opt-In Status" = 2
+
+[bootstrap.settings.macos.defaults."com.apple.assistant.backedup"]
+"Use device speaker for TTS" = 3
+
+[bootstrap.settings.macos.defaults."com.apple.SetupAssistant"]
+DidSeeSiriSetup = true
+
+[bootstrap.settings.macos.defaults."com.apple.Siri"]
+StatusMenuVisible = false
+UserHasDeclinedEnable = true
+
+[bootstrap.settings.macos.defaults."com.apple.systemuiserver"]
+"NSStatusItem Visible Siri" = false
+
+[bootstrap.settings.macos.defaults."com.apple.BluetoothAudioAgent"]
+"Apple Bitpool Min (editable)" = 40 # better Bluetooth audio quality
+
+[bootstrap.settings.macos.defaults."com.microsoft.office"]
+DiagnosticDataTypePreference = "ZeroDiagnosticData"
+
+# Frees cmd-space for Raycast
+[[bootstrap.settings.macos.defaults_entries]]
+domain = "com.apple.symbolichotkeys"
+key = "AppleSymbolicHotKeys"
+path = ["64", "enabled"]
+value = false
+
+# Format on the next prompt after a change, unless git just rewrote the files (checkout, pull, rebase)
+[[watch_files]]
+patterns = ["mise.toml", "**/*.sh"]
+run = '[ -n "$MISE_WATCH_FILES_GIT_REWRITTEN" ] || mise run fmt'
+
+[tasks.bootstrap]
+description = "Global tools and system settings (sudo) that [bootstrap] does not handle"
+file = "macos/bootstrap.sh"
+
+[tasks."lint:mise"]
+description = "Validate mise.toml against the official schema and check formatting"
+run = ["tombi lint mise.toml", "mise fmt --check"]
+
+[tasks.fmt]
+description = "Format mise.toml and shell scripts"
+# mise fmt rewrites the file even when nothing changes, which would retrigger watch_files in a loop
+run = ["mise fmt --check 2>/dev/null || mise fmt", "shfmt --list --write ."]
